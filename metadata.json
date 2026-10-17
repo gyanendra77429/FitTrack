@@ -1,0 +1,8 @@
+{
+  "name": "FitTrack",
+  "description": "FitTrack – Daily Fitness & Step Counter. Track steps, walking distance, calories, workouts, and achievements.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

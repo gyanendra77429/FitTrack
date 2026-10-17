@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile, goals, stride length, and fitness settings.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "dailyStepGoal": { "type": "integer" },
+        "preferredUnit": { "type": "string", "enum": ["km", "mi"] },
+        "strideLengthMeters": { "type": "number" },
+        "age": { "type": "integer" },
+        "heightCm": { "type": "number" },
+        "weightKg": { "type": "number" },
+        "stepRemindersEnabled": { "type": "boolean" },
+        "themePreference": { "type": "string", "enum": ["system", "light", "dark"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "dailyStepGoal", "preferredUnit", "strideLengthMeters", "createdAt", "updatedAt"]
+    },
+    "DailyActivity": {
+      "title": "DailyActivity",
+      "description": "Recorded daily fitness telemetry including step count, distance, calories, and active minutes.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string" },
+        "steps": { "type": "integer" },
+        "stepGoal": { "type": "integer" },
+        "distanceMeters": { "type": "number" },
+        "calories": { "type": "number" },
+        "activeMinutes": { "type": "integer" },
+        "goalReached": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["date", "steps", "stepGoal", "distanceMeters", "calories", "activeMinutes", "goalReached", "updatedAt"]
+    },
+    "Workout": {
+      "title": "Workout",
+      "description": "Recorded fitness workout session.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["walking", "running", "cycling", "stretching"] },
+        "durationSeconds": { "type": "integer" },
+        "steps": { "type": "integer" },
+        "distanceMeters": { "type": "number" },
+        "calories": { "type": "number" },
+        "avgPaceSecondsPerKm": { "type": "number" },
+        "date": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "type", "durationSeconds", "steps", "distanceMeters", "calories", "date", "createdAt"]
+    },
+    "Achievement": {
+      "title": "Achievement",
+      "description": "Earned milestones and achievement badges.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "badgeId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "unlockedAt": { "type": "string", "format": "date-time" },
+        "isUnlocked": { "type": "boolean" }
+      },
+      "required": ["id", "badgeId", "title", "description", "unlockedAt", "isUnlocked"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Root user profile document"
+    },
+    "/users/{userId}/daily_activity/{dateId}": {
+      "schema": { "$ref": "#/entities/DailyActivity" },
+      "description": "Daily activity summary documents keyed by YYYY-MM-DD"
+    },
+    "/users/{userId}/workouts/{workoutId}": {
+      "schema": { "$ref": "#/entities/Workout" },
+      "description": "Workout session documents"
+    },
+    "/users/{userId}/achievements/{badgeId}": {
+      "schema": { "$ref": "#/entities/Achievement" },
+      "description": "Unlocked badges and achievements"
+    }
+  }
+}
